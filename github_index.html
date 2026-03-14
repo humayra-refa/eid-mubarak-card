@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদ মোবারক — শান্তির ঈদ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #041f14;
+            --bg-card: #0a3d2e;
+            --bg-navy: #0d1b3e;
+            --bg-black: #0a0a0a;
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --text-white: #f5f0e8;
+            --text-cold: #e8e8e8;
+            --text-red: #ffcccc;
+            --teal: #2dd4bf;
+            --pal-red: #c0392b;
+            --pal-green: #149954;
+            --pal-white: #ffffff;
+            --pal-black: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Hind Siliguri', sans-serif;
+            background: radial-gradient(circle at center, #073a25 0%, var(--bg-dark) 80%);
+            color: var(--text-white);
+        }
+
+        h1, h2, h3, .serif-text {
+            font-family: 'Noto Serif Bengali', serif;
+        }
+
+        /* Particles & Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.5), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Moon */
+        .moon {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 15px 15px 0 0 var(--gold-light);
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: moonRise 3s cubic-bezier(0.4, 0, 0.2, 1) forwards, moonGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes moonRise {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes moonGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); }
+            100% { filter: drop-shadow(0 0 25px rgba(240, 208, 96, 0.8)); }
+        }
+
+        /* Lanterns */
+        .lanterns-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .lantern {
+            position: absolute;
+            width: 40px;
+            animation: floatLantern 6s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        }
+
+        .lantern svg { width: 100%; height: auto; }
+        
+        .l-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .l-2 { top: 25%; left: 5%; animation-delay: 1s; width: 30px; }
+        .l-3 { top: 40%; left: 12%; animation-delay: 2s; width: 35px; }
+        .l-4 { top: 15%; right: 12%; animation-delay: 0.5s; width: 35px; }
+        .l-5 { top: 30%; right: 6%; animation-delay: 1.5s; width: 30px; }
+        .l-6 { top: 45%; right: 10%; animation-delay: 2.5s; }
+
+        @media (max-width: 480px) {
+            .lanterns-container { display: none; }
+        }
+
+        @keyframes floatLantern {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        /* Global UI Elements */
+        .mute-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            background: rgba(45, 212, 191, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s;
+        }
+        .mute-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-dots {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            border: 1px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            transform: scale(1.2);
+        }
+
+        /* Pages */
+        .pages-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            padding: 40px 20px 100px 20px;
+            overflow-y: auto;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .page.fading-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Cards */
+        .card {
+            margin: auto 0;
+            background: var(--bg-card);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 40px 36px;
+            max-width: 680px;
+            width: 95%;
+            text-align: center;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            max-height: none;
+            height: auto;
+            overflow: visible;
+        }
+        
+        .card.navy {
+            background: var(--bg-navy);
+        }
+
+        .card.mourning {
+            background: var(--bg-black);
+            border: 1.5px solid #8b0000;
+            box-shadow: inset 0 0 60px rgba(139,0,0,0.15), 0 10px 30px rgba(0,0,0,0.8);
+            padding-top: 50px; /* space for flag */
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+        }
+
+        .card.mourning::before {
+            background: linear-gradient(90deg, transparent, #8b0000, transparent);
+        }
+
+        /* Page 1 Specifics */
+        .mosque-illustration {
+            width: auto;
+            max-height: 220px;
+            height: 220px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .mosque-dome { fill: var(--teal); }
+        .mosque-gold { fill: var(--gold); }
+        .mosque-shadow { fill: rgba(0,0,0,0.3); }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 14px 0;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+            margin: 0 15px;
+        }
+        .divider::after {
+            background: linear-gradient(270deg, transparent, var(--gold));
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            color: var(--gold-light);
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .name-input {
+            background: rgba(4, 31, 20, 0.6);
+            border: 1px solid var(--gold);
+            color: var(--text-white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Noto Serif Bengali', serif;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .name-input:focus {
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            border-color: var(--gold-light);
+        }
+        .name-input::placeholder {
+            color: rgba(245, 240, 232, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            height: 1.5em;
+            color: var(--text-white);
+            margin-bottom: 15px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--gold);
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .footer-line {
+            font-size: 0.9rem;
+            color: rgba(245, 240, 232, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            font-size: 0.88rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+            font-weight: 600;
+            padding: 8px 15px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: inline-block;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                max-width: 100%;
+                width: 96%;
+                padding: 24px 18px;
+            }
+            .mosque-illustration {
+                max-height: 160px;
+                height: 160px;
+            }
+            .main-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (min-width: 480px) {
+            .btn-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold-light);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Hind Siliguri', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.active {
+            background: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-back {
+            margin-top: 30px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        .mourning .btn-back {
+            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.2), transparent);
+            border-color: #8b0000;
+            color: var(--text-cold);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        /* Page 2 Specifics */
+        .page-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        .page-subtitle {
+            font-size: 0.9rem;
+            color: rgba(212, 175, 55, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .poem-container {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0 10px;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .poem-line {
+            border-left: 3px solid var(--gold);
+            padding-left: 15px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #f5f0e8;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .poem-line:nth-child(6) { 
+            color: var(--gold-light); 
+            font-weight: 600; 
+            border-left-color: var(--teal); 
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+            100% { text-shadow: 0 0 15px rgba(240, 208, 96, 0.8); }
+        }
+
+        .actions-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* Page 3 Specifics (Mourning) */
+        .palestine-flag {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 0; left: 0;
+            border-radius: 0;
+        }
+        .pal-stripe { flex: 1; width: 100%; }
+        .pal-black { background: var(--pal-black); }
+        .pal-white { background: var(--pal-white); }
+        .pal-green { background: var(--pal-green); }
+        .pal-triangle {
+            position: absolute;
+            left: 0; top: 0;
+            width: 100px; height: 100%;
+            background: var(--pal-red);
+            clip-path: polygon(0 0, 0 100%, 100% 50%);
+        }
+
+        .mourning .page-title {
+            color: var(--pal-red);
+        }
+        .mourning .page-subtitle {
+            color: #888;
+        }
+
+        .quote-box {
+            border: none;
+            border-left: 4px solid var(--pal-red);
+            background: #1a0000;
+            padding: 15px;
+            font-style: italic;
+            margin: 20px 0;
+            font-size: 1.05rem;
+            color: var(--text-red);
+            text-align: left;
+            min-height: 80px;
+        }
+
+        .candles-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .candle {
+            width: 24px;
+            height: 50px;
+        }
+
+        .candle-body {
+            fill: #333;
+        }
+
+        .candle-flame {
+            transform-origin: bottom center;
+            opacity: 0; /* unlit by default */
+            transition: opacity 0.5s ease;
+        }
+
+        .candle.lit .candle-flame {
+            opacity: 1;
+            animation: mourningFlicker 3s infinite alternate;
+            filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.5));
+        }
+
+        @keyframes mourningFlicker {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            50% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+            100% { transform: scale(0.95) rotate(-1deg); opacity: 0.85; }
+        }
+
+        .poem-palestine {
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            line-height: 2rem;
+            text-align: left;
+            padding: 0 10px;
+        }
+
+        .poem-palestine div {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .poem-palestine div:nth-child(1) { color: #e8e8e8; }
+        .poem-palestine div:nth-child(2) { color: #e8e8e8; }
+        .poem-palestine div:nth-child(3) { color: #ffcccc; font-style: italic; }
+        .poem-palestine div:nth-child(4) { color: #ffcccc; font-style: italic; }
+        .poem-palestine div:nth-child(5) { color: #e8e8e8; }
+        .poem-palestine div:nth-child(6) { color: #e8e8e8; }
+
+        .free-palestine {
+            color: #5dbb63;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: slowPulse 3s infinite;
+        }
+
+        @keyframes slowPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .btn-red {
+            border-color: #8b0000;
+            color: #e8e8e8;
+            background: #8b0000;
+        }
+        .btn-red:disabled {
+            background: transparent;
+            border-color: #550000;
+            color: #888;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Page 4 Specifics */
+        .toggle-all {
+            display: block;
+            text-align: right;
+            color: var(--gold);
+            font-size: 0.85rem;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+        .toggle-all:hover {
+            color: var(--gold-light);
+        }
+
+        .commit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 10px 0 25px;
+            text-align: left;
+        }
+
+        .commit-item {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .commit-item:not(.checked) {
+            opacity: 0.5;
+        }
+
+        .commit-item:not(.checked) .commit-text {
+            text-decoration: line-through;
+        }
+
+        .commit-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            opacity: 1; /* override dim on hover */
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .commit-item.checked .checkbox {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+
+        .checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .commit-item.checked .checkbox::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .commit-text {
+            font-size: 1rem;
+            line-height: 1.4;
+            transition: text-decoration 0.2s;
+        }
+
+        .completion-msg {
+            color: var(--gold-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            pointer-events: none;
+            height: 0;
+        }
+
+        .completion-msg.show {
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+            margin-top: 10px;
+        }
+
+        /* Curtain CSS */
+        #curtain-overlay { position: fixed; z-index: 9999; width: 100%; height: 100%; top: 0; left: 0; pointer-events: all; }
+        #curtain-left { position: absolute; left: 0; top: 0; width: 50%; height: 100%; background-image: repeating-linear-gradient(45deg, rgba(212,175,55,0.03) 0px, rgba(212,175,55,0.03) 1px, transparent 1px, transparent 10px); background-color: #0a3d2e; border-right: 3px solid #d4af37; box-shadow: 2px 0 15px rgba(212,175,55,0.5); }
+        #curtain-right { position: absolute; right: 0; top: 0; width: 50%; height: 100%; background-image: repeating-linear-gradient(45deg, rgba(212,175,55,0.03) 0px, rgba(212,175,55,0.03) 1px, transparent 1px, transparent 10px); background-color: #0a3d2e; border-left: 3px solid #d4af37; box-shadow: -2px 0 15px rgba(212,175,55,0.5); }
+        #curtain-left::after, #curtain-right::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; background-image: radial-gradient(circle at 10px 10px, #d4af37 3px, transparent 4px); background-size: 20px 20px; background-repeat: repeat-x; }
+
+        /* Page 5 Specifics */
+        .page5-inputs input { background: rgba(0,0,0,0.2); border: 1px solid #d4af37; border-radius: 50px; color: #f5f0e8; padding: 12px 20px; width: 100%; font-family: 'Hind Siliguri', sans-serif; margin-bottom: 10px; outline: none;}
+        .page5-inputs input:focus { box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        #bkash-btn { background: #e2136e; color: white; border: none; border-radius: 50px; padding: 12px 24px; font-weight: 700; cursor: pointer; flex: 1; transition: transform 0.2s;}
+        #nagad-btn { background: #f26522; color: white; border: none; border-radius: 50px; padding: 12px 24px; font-weight: 700; cursor: pointer; flex: 1; transition: transform 0.2s;}
+        #bkash-btn:hover, #nagad-btn:hover { transform: scale(1.05); }
+        .payment-btns { display: flex; gap: 10px; margin: 12px 0; }
+        .number-config { background: rgba(0,0,0,0.2); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 14px; margin: 12px 0; text-align: left;}
+        #how-info { background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 12px 16px; color: #f5f0e8; font-size: 0.85rem; line-height: 2; margin-top: 10px; text-align: left; transition: max-height 0.3s ease; overflow: hidden; }
+        #how-toggle { color: rgba(212,175,55,0.7); font-size: 0.82rem; cursor: pointer; text-decoration: underline; display: block; text-align: center; margin: 6px 0; }
+        .preset-btns { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+        .preset { background: transparent; border: 1px solid rgba(212,175,55,0.4); border-radius: 50px; color: #f0d060; padding: 9px 16px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
+        .preset:hover { border-color: var(--gold-light); background: rgba(212,175,55,0.1); }
+        #salami-preview { background: linear-gradient(135deg, #0d5040, #082e22); border: 1.5px solid #d4af37; border-radius: 14px; padding: 20px; text-align: center; margin: 16px 0; color: #f5f0e8; }
+        .prev-amount { font-size: 2rem; font-weight: 900; color: #f0d060; text-shadow: 0 0 15px rgba(212,175,55,0.5); margin: 10px 0; }
+        .disclaimer { font-size: 0.72rem; color: rgba(245,240,232,0.4); text-align: center; margin-top: 8px; }
+        #custom-msg { background: rgba(0,0,0,0.2); border: 1px solid #d4af37; border-radius: 15px; color: #f5f0e8; padding: 12px 20px; width: 100%; font-family: 'Hind Siliguri', sans-serif; resize: vertical; outline: none; }
+    </style>
+</head>
+<body>
+    <!-- Curtain Overlay -->
+    <div id="curtain-overlay">
+        <div id="curtain-left"></div>
+        <div id="curtain-right"></div>
+    </div>
+
+    <!-- Background Animations -->
+    <div class="stars"></div>
+    <canvas id="particles-canvas" style="pointer-events: none; position: absolute; z-index: 1; top: 0; left: 0;"></canvas>
+    
+    <div class="moon"></div>
+    
+    <div class="lanterns-container">
+        <!-- SVG Lanterns -->
+        <div class="lantern l-1"><svg viewBox="0 0 24 36" fill="var(--gold)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+        <div class="lantern l-2"><svg viewBox="0 0 24 36" fill="var(--gold-light)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+        <div class="lantern l-3"><svg viewBox="0 0 24 36" fill="var(--gold)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+        <div class="lantern l-4"><svg viewBox="0 0 24 36" fill="var(--teal)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+        <div class="lantern l-5"><svg viewBox="0 0 24 36" fill="var(--gold-light)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+        <div class="lantern l-6"><svg viewBox="0 0 24 36" fill="var(--gold)"><path d="M12 2 L16 8 L18 20 L14 30 L10 30 L6 20 L8 8 Z M10 0 L14 0 L14 2 L10 2 Z M8 30 L16 30 L16 34 L8 34 Z M12 34 L12 36 M12 30 L12 20 M10 20 L14 20 M10 12 L14 12"/></svg></div>
+    </div>
+
+    <!-- UI Overlays -->
+    <button id="muteBtn" class="mute-btn">🔊</button>
+    
+    <div class="nav-dots">
+        <div class="dot active" onclick="navToPage(0)"></div>
+        <div class="dot" onclick="navToPage(1)"></div>
+        <div class="dot" onclick="navToPage(2)"></div>
+        <div class="dot" onclick="navToPage(3)"></div>
+        <div class="dot" onclick="navToPage(4)"></div>
+    </div>
+
+    <main class="pages-container" id="swipeZone">
+        
+        <!-- ================= PAGE 1: MAIN CARD ================= -->
+        <section id="page0" class="page active">
+            <div class="card">
+                <svg class="mosque-illustration" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="110" width="160" height="10" class="mosque-gold" rx="2"/>
+                    <rect x="30" y="90" width="140" height="20" fill="#0d523f"/>
+                    <path d="M100 20 C140 20, 140 90, 140 90 L60 90 C60 90, 60 20, 100 20 Z" class="mosque-dome"/>
+                    <path d="M100 20 C120 20, 120 90, 120 90 L100 90 Z" class="mosque-shadow"/>
+                    <rect x="35" y="40" width="10" height="50" class="mosque-gold"/>
+                    <polygon points="30,40 50,40 40,20" class="mosque-teal" fill="var(--teal)"/>
+                    <circle cx="40" cy="15" r="3" class="mosque-gold"/>
+                    <rect x="155" y="40" width="10" height="50" class="mosque-gold"/>
+                    <polygon points="150,40 170,40 160,20" fill="var(--teal)"/>
+                    <circle cx="160" cy="15" r="3" class="mosque-gold"/>
+                    <path d="M65 60 C80 60, 80 90, 80 90 L50 90 C50 90, 50 60, 65 60 Z" class="mosque-gold"/>
+                    <path d="M135 60 C150 60, 150 90, 150 90 L120 90 C120 90, 120 60, 135 60 Z" class="mosque-gold"/>
+                    <path d="M98 0 C105 0, 110 5, 110 12 C105 8, 98 8, 95 12 C95 5, 100 0, 98 0 Z" class="mosque-gold"/>
+                    <rect x="99" y="12" width="2" height="8" class="mosque-gold"/>
+                </svg>
+
+                <div class="divider">✦ ◈ ✦</div>
+                <h1 class="main-title">ঈদ মোবারক</h1>
+                
+                <input type="text" id="nameInput" class="name-input" placeholder="প্রাপকের নাম লিখুন... ✍️" autocomplete="off" maxlength="30">
+                
+                <div class="subtitle" id="subtitleContainer"><span id="typewriter"></span><span class="cursor"></span></div>
+                
+                <div class="divider">✦ ◈ ✦</div>
+                
+                <p class="footer-line">শান্তি, সুখ ও সমৃদ্ধিতে ভরে উঠুক সকলের জীবন। 🌙</p>
+
+                <div class="countdown" id="countdownTimer">ঈদের আর 0 দিন 0 ঘণ্টা 0 মিনিট 0 সেকেন্ড বাকি ⏳</div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="navToPage(1)">শুভেচ্ছা বার্তা ❤️</button>
+                    <button class="btn" onclick="navToPage(2)">মানবিকতার ডাক 🕊️</button>
+                    <button class="btn" onclick="navToPage(3)">ঈদের অঙ্গীকার 📋</button>
+                    <button class="btn" style="background: linear-gradient(135deg, #d4af37, #b8960c); color: #1a0a00;" onclick="navToPage(4)">সালামি পাঠান 💝</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: GREETINGS ================= -->
+        <section id="page1" class="page">
+            <div class="card" id="greetingsCard">
+                <h2 class="page-title serif-text">ঈদ মোবারক!</h2>
+                <div class="page-subtitle">Eid Greetings · শুভেচ্ছা ও ভালোবাসা</div>
+                <div class="divider">✦</div>
+                
+                <div class="poem-container" id="copySource">
+                    <div class="poem-line">পবিত্র ঈদ-উল-ফিতর</div>
+                    <div class="poem-line">আমাদের সকলের জীবনে বয়ে আনুক অনাবিল সুখ, শান্তি ও সমৃদ্ধি।</div>
+                    <div class="poem-line">হৃদয়ের গভীর থেকে ঈদের অনেক শুভেচ্ছা ও ভালোবাসা।</div>
+                    <div class="poem-line">আল্লাহ সকলের জীবন সুখময় করুন,</div>
+                    <div class="poem-line">প্রতিটি মুহূর্ত হোক আনন্দে পূর্ণ।</div>
+                    <div class="poem-line">🌙 ঈদ মোবারক — শান্তি ও সমৃদ্ধি হোক সবার ✨</div>
+                </div>
+
+                <div class="actions-row">
+                    <button class="btn btn-small" id="copyBtn" onclick="copyPoem()">📋 কপি করুন</button>
+                    <button class="btn btn-small" onclick="downloadCard()">📥 ডাউনলোড করুন</button>
+                    <button class="btn btn-small" onclick="sharePoem()">📤 শেয়ার করুন</button>
+                </div>
+
+                <button class="btn btn-back" onclick="navToPage(0)">← ফিরে যান</button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: PALESTINE ================= -->
+        <section id="page2" class="page">
+            <div class="card mourning">
+                <div class="palestine-flag">
+                    <div class="pal-stripe pal-black"></div>
+                    <div class="pal-stripe pal-white"></div>
+                    <div class="pal-stripe pal-green"></div>
+                    <div class="pal-triangle"></div>
+                </div>
+                
+                <h2 class="page-title serif-text">মানবিকতার ডাক</h2>
+                <div class="page-subtitle">Palestine Solidarity · ফিলিস্তিন মুক্ত হোক</div>
+                
+                <div class="quote-box">
+                    "<span id="quoteTypewriter"></span><span class="cursor" id="quoteCursor" style="display:none;"></span>"
+                </div>
+                
+                <div class="candles-row" id="candlesContainer">
+                    <!-- Candles auto-generated via JS -->
+                </div>
+
+                <div class="poem-palestine">
+                    <div>আমাদের ঈদের চাঁদ উঠেছে আকাশে,</div>
+                    <div>কিন্তু গাজার শিশু কাঁদছে অন্ধকারে।</div>
+                    <div>আমরা সেমাইয়ের মিষ্টির স্বাদ নেওয়ার আগে,</div>
+                    <div>একটু মনে করি — যে শিশুরা ক্ষুধায় জেগে আছে।</div>
+                    <div>শান্তির ঈদ তখনই আসবে পৃথিবীতে,</div>
+                    <div>যেদিন প্রতিটি শিশু হাসবে নির্ভীকে।</div>
+                </div>
+
+                <div class="free-palestine">🕊️ Free Palestine · ফিলিস্তিন মুক্ত হোক 🕊️</div>
+
+                <button id="candleBtn" class="btn btn-red" onclick="lightCandlesSequential()">মোমবাতি জ্বালান 🕯️</button>
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-back" onclick="navToPage(0)">← ফিরে যান</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: COMMITMENTS ================= -->
+        <section id="page3" class="page">
+            <div class="card navy">
+                <h2 class="page-title serif-text">ঈদের অঙ্গীকার</h2>
+                <div class="page-subtitle">Commitments of Eid · আমাদের প্রতিশ্রুতি</div>
+                <div class="divider">✦</div>
+                
+                <span class="toggle-all" id="toggleAllBtn" onclick="toggleAll()">সব নির্বাচন</span>
+
+                <div class="commit-list" id="commitList">
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">⚡ বিদ্যুৎ অপচয় না করা।</div>
+                    </div>
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">🌿 চারপাশ পরিষ্কার পরিচ্ছন্ন রাখা।</div>
+                    </div>
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">🎆 আতশবাজি করা থেকে বিরত থাকা।</div>
+                    </div>
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">🤲 অসহায়দের মাঝে যাকাত ও সাহায্য পৌঁছে দেওয়া।</div>
+                    </div>
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">🧠 সচেতন নাগরিক হিসেবে দায়িত্ব পালন করা।</div>
+                    </div>
+                    <div class="commit-item">
+                        <div class="checkbox"></div>
+                        <div class="commit-text">🔇 শব্দ দূষণ রোধে উৎসবে গান-বাজনা পরিহার করা।</div>
+                    </div>
+                </div>
+
+                <div class="completion-msg" id="completionMsg">🎉 আপনি সকল অঙ্গীকার পালনে প্রতিশ্রুতিবদ্ধ! আল্লাহ কবুল করুন। 🤲</div>
+
+                <button class="btn btn-back" onclick="navToPage(0)">← ফিরে যান</button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: EID SALAMI ================= -->
+        <section id="page4" class="page">
+            <div class="card page5-inputs">
+                <h2 class="page-title serif-text">ঈদ সালামি 💝</h2>
+                <div class="page-subtitle">Send Eid Salami · ভালোবাসার উপহার</div>
+                <div class="divider">✦ ◈ ✦</div>
+
+                <!-- STEP 1: Info inputs -->
+                <input id="recipient-name" placeholder="প্রাপকের নাম ✍️" />
+                <input id="sender-name" placeholder="আপনার নাম 👤" />
+                <input id="salami-amount" type="number" placeholder="সালামির পরিমাণ (যেমন: ৫০০) 💰" />
+
+                <!-- STEP 2: Payment Section -->
+                <div style="font-size: 0.9rem; color: var(--gold-light); margin-top: 15px;">সালামি পাঠান মোবাইল ব্যাংকিং এ 📲</div>
+                <div style="font-size: 0.8rem; color: #aaa; margin-bottom: 10px;">নিচের বাটনে চাপলে সরাসরি app খুলবে</div>
+
+                <!-- Number config -->
+                <div class="number-config">
+                    <div style="font-size: 0.85rem; color: #ccc; margin-bottom: 8px;">আপনার নম্বর দিন (একবারই লাগবে) 🔒</div>
+                    <input id="bkash-number" placeholder="🟣 আপনার bKash নম্বর: 01XXXXXXXXX" />
+                    <input id="nagad-number" placeholder="🟠 আপনার Nagad নম্বর: 01XXXXXXXXX" />
+                </div>
+
+                <!-- Payment buttons -->
+                <div class="payment-btns">
+                    <button id="bkash-btn">🟣 bKash এ পাঠান</button>
+                    <button id="nagad-btn">🟠 Nagad এ পাঠান</button>
+                </div>
+
+                <!-- How it works toggle -->
+                <span id="how-toggle">ℹ️ কিভাবে কাজ করে?</span>
+                <div id="how-info" style="display:none">
+                    ১. উপরে আপনার bKash/Nagad নম্বর দিন<br>
+                    ২. সালামির পরিমাণ লিখুন<br>
+                    ৩. bKash বা Nagad বাটনে চাপুন<br>
+                    ৪. আপনার app এ গিয়ে পাঠিয়ে দিন ✅
+                </div>
+
+                <!-- STEP 3: Message -->
+                <div style="font-size: 0.9rem; text-align: left; margin-top: 15px;">একটি বার্তা বেছে নিন অথবা নিজে লিখুন:</div>
+                <div class="preset-btns">
+                    <button class="preset">ঈদের আনন্দে ভরুক তোমার দিন 🌙</button>
+                    <button class="preset">ছোট্ট উপহার, অনেক ভালোবাসা ❤️</button>
+                    <button class="preset">আল্লাহ তোমায় সুখী রাখুন 🤲</button>
+                </div>
+                <textarea id="custom-msg" rows="3" placeholder="নিজের বার্তা লিখুন..."></textarea>
+
+                <!-- STEP 4: Live Preview Card -->
+                <div id="salami-preview">
+                    <p style="text-align: left; margin-bottom: 5px;">প্রিয় <span id="prev-name" style="color:var(--gold)">---</span>,</p>
+                    <p id="prev-msg" style="margin: 15px 0;">---</p>
+                    <div class="divider" style="margin:10px auto;">✦ ◈ ✦</div>
+                    <div class="prev-amount">৳<span id="prev-amount-val">০</span></div>
+                    <p style="text-align: right; font-size:0.9rem; margin-top: 5px;">— <span id="prev-sender" style="color:var(--gold)">---</span> এর পক্ষ থেকে 💝</p>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="actions-row">
+                    <button class="btn btn-small" id="copy-salami">📋 কার্ড কপি করুন</button>
+                    <button class="btn btn-small" id="download-salami">📥 ডাউনলোড</button>
+                    <button class="btn btn-small" id="whatsapp-salami">📤 WhatsApp</button>
+                    <button class="btn btn-small" id="facebook-salami">📘 Facebook</button>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">* এই বাটন আপনার মোবাইল app খুলবে। payment app এ গিয়ে নিশ্চিত করুন।</div>
+
+                <div style="margin-top:20px;">
+                    <button class="btn btn-back" onclick="navToPage(0)">← ফিরে যান</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ==========================================
+        // CONSTANTS & STATE
+        // ==========================================
+        const targetEidDate = new Date("March 20, 2026 00:00:00").getTime();
+        const pages = ['page0', 'page1', 'page2', 'page3', 'page4'];
+        let currentIndex = 0;
+        let isMuted = false;
+        let audioCtx;
+        let audioInit = false;
+
+        // ==========================================
+        // AUDIO SYSTEM (Web Audio API)
+        // ==========================================
+        const initAudio = () => {
+            if (!audioInit) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                audioInit = true;
+                playSound('chime'); 
+            }
+        };
+
+        const playSound = (type) => {
+            if (isMuted || !audioCtx) return;
+            const t = audioCtx.currentTime;
+            
+            if (type === 'chime') {
+                [440, 554, 659, 880].forEach((freq, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.05 / (i+1), t + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5 + (i * 0.2));
+                    osc.start(t); osc.stop(t + 2);
+                });
+            } 
+            else if (type === 'tick') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1200, t);
+                osc.frequency.exponentialRampToValueAtTime(400, t + 0.05);
+                gain.gain.setValueAtTime(0.05, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+                osc.start(t); osc.stop(t + 0.05);
+            }
+            else if (type === 'whoosh') {
+                const noiseSize = audioCtx.sampleRate * 0.3;
+                const buffer = audioCtx.createBuffer(1, noiseSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < noiseSize; i++) data[i] = Math.random() * 2 - 1;
+                const noiseSrc = audioCtx.createBufferSource();
+                noiseSrc.buffer = buffer;
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(1500, t);
+                filter.frequency.exponentialRampToValueAtTime(300, t + 0.3);
+                filter.Q.value = 0.5;
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(0, t);
+                noiseGain.gain.linearRampToValueAtTime(0.15, t + 0.1);
+                noiseGain.gain.linearRampToValueAtTime(0.001, t + 0.3);
+                noiseSrc.connect(filter).connect(noiseGain).connect(audioCtx.destination);
+                noiseSrc.start(t);
+            }
+            else if (type === 'fwoosh') {
+                const noiseSize = audioCtx.sampleRate * 0.5;
+                const buffer = audioCtx.createBuffer(1, noiseSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < noiseSize; i++) data[i] = Math.random() * 2 - 1;
+                const noiseSrc = audioCtx.createBufferSource();
+                noiseSrc.buffer = buffer;
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(600, t);
+                filter.frequency.exponentialRampToValueAtTime(100, t + 0.5);
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(0, t);
+                noiseGain.gain.linearRampToValueAtTime(0.25, t + 0.05);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+                noiseSrc.connect(filter).connect(noiseGain).connect(audioCtx.destination);
+                noiseSrc.start(t);
+                
+                const rum = audioCtx.createOscillator();
+                const rumGain = audioCtx.createGain();
+                rum.connect(rumGain); rumGain.connect(audioCtx.destination);
+                rum.type = 'sine';
+                rum.frequency.setValueAtTime(80, t);
+                rum.frequency.exponentialRampToValueAtTime(40, t + 0.4);
+                rumGain.gain.setValueAtTime(0, t);
+                rumGain.gain.linearRampToValueAtTime(0.2, t + 0.05);
+                rumGain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+                rum.start(t); rum.stop(t + 0.5);
+            }
+            else if (type === 'bell') {
+                [1200, 2400].forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t);
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.08 / (idx+1), t + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+                    osc.start(t); osc.stop(t + 0.3);
+                });
+            }
+            else if (type === 'ding') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1600, t);
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.1, t + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+                osc.start(t); osc.stop(t + 0.2);
+            }
+            else if (type === 'melody') {
+                const scale = [523.25, 659.25, 783.99, 1046.50];
+                scale.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const osc2 = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain); osc2.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc2.type = 'triangle'; 
+                    const startTime = t + (idx * 0.15);
+                    osc.frequency.setValueAtTime(freq, startTime);
+                    osc2.frequency.setValueAtTime(freq * 2, startTime);
+                    gain.gain.setValueAtTime(0, startTime);
+                    gain.gain.linearRampToValueAtTime(0.08, startTime + 0.03);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.6);
+                    osc.start(startTime); osc.stop(startTime + 0.6);
+                    osc2.start(startTime); osc2.stop(startTime + 0.6);
+                });
+            }
+        };
+
+        function playDoubleChime(freq1, freq2) {
+            if (isMuted || !audioCtx) return;
+            [freq1, freq2].forEach((freq, i) => {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+                }, i * 200);
+            });
+        }
+
+        function playBuzzSound() {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.value = 200;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+        }
+
+        function playCurtainSound() {
+            if (!audioCtx) return;
+            const bufferSize = audioCtx.sampleRate * 0.8;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const source = audioCtx.createBufferSource();
+            source.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(200, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(800, audioCtx.currentTime + 0.8);
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+            source.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            source.start();
+        }
+
+        function playCopyDing() {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 1400;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // Allow audio context init on click everywhere
+        document.body.addEventListener('click', initAudio, { once: true });
+        document.body.addEventListener('touchstart', initAudio, { once: true });
+
+        document.getElementById('muteBtn').addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            if(!audioInit) initAudio();
+            isMuted = !isMuted;
+            e.target.innerText = isMuted ? '🔇' : '🔊';
+        });
+
+        // ==========================================
+        // NAVIGATION (Dots, Swipe & Buttons)
+        // ==========================================
+        const updateDots = () => {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === currentIndex);
+            });
+        };
+
+        const navToPage = (targetIdx) => {
+            initAudio();
+            playSound('tick');
+            if (targetIdx === currentIndex) return;
+            
+            const currentEl = document.getElementById(pages[currentIndex]);
+            const targetEl = document.getElementById(pages[targetIdx]);
+            
+            currentEl.classList.remove('active');
+            currentEl.classList.add('fading-out');
+            
+            setTimeout(() => {
+                playSound('whoosh');
+                currentEl.classList.remove('fading-out');
+                targetEl.classList.add('active');
+                currentIndex = targetIdx;
+                updateDots();
+
+                if (targetIdx === 1) revealPoem2Lines();
+                if (targetIdx === 2) revealPoem3Lines();
+
+                // Special trigger for Page 3 typing quote
+                if (targetIdx === 2 && !quoteTyped) {
+                    typeQuote();
+                }
+            }, 400); 
+        };
+
+        const revealPoem2Lines = () => {
+            const lines = document.querySelectorAll('#page1 .poem-line');
+            lines.forEach((line, i) => {
+                line.style.animation = 'none';
+                void line.offsetWidth; 
+                line.style.animation = `fadeInUp 0.5s ease forwards ${i * 0.5}s`;
+                if (i === 5) {
+                    line.style.animation = `fadeInUp 0.5s ease forwards ${i * 0.5}s, glowPulse 2s infinite alternate ${i * 0.5 + 0.5}s`;
+                }
+            });
+        };
+
+        const revealPoem3Lines = () => {
+            const lines = document.querySelectorAll('#page2 .poem-palestine div');
+            lines.forEach((line, i) => {
+                line.style.animation = 'none';
+                void line.offsetWidth;
+                line.style.animation = `fadeInUp 0.5s ease forwards ${i * 0.4}s`;
+            });
+        };
+
+        // Swipe logic
+        let touchStartX = 0;
+        const swipeZone = document.getElementById('swipeZone');
+
+        swipeZone.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        swipeZone.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            handleSwipe(touchStartX, touchEndX);
+        }, {passive: true});
+
+        const handleSwipe = (start, end) => {
+            const thres = 50;
+            if (end < start - thres) { // Swipe left -> next
+                if (currentIndex < pages.length - 1) navToPage(currentIndex + 1);
+            } else if (end > start + thres) { // Swipe right -> prev
+                if (currentIndex > 0) navToPage(currentIndex - 1);
+            }
+        };
+
+        // ==========================================
+        // PAGE 1: TIMER & INPUT
+        // ==========================================
+        const timerEl = document.getElementById('countdownTimer');
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetEidDate - now;
+
+            if (distance < 0) {
+                timerEl.innerText = "ঈদ মোবারক! আজ খুশির দিন 🌙🎉";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timerEl.innerText = `ঈদের আর ${days} দিন ${hours} ঘণ্টা ${minutes} মিনিট ${seconds} সেকেন্ড বাকি ⏳`;
+        }, 1000);
+
+        // Name input handling
+        const nameInput = document.getElementById('nameInput');
+        const subtitleContainer = document.getElementById('subtitleContainer');
+        const textToType = "রমজানের ঐ রোজার শেষে এলো খুশির ঈদ";
+        let typeIndex = 0;
+        let p1Typed = false;
+
+        const typeWriter = () => {
+            if (nameInput.value.trim() !== '') return; // Abort if name typed
+            if (typeIndex < textToType.length) {
+                document.getElementById('typewriter').innerText += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 100);
+            } else {
+                p1Typed = true;
+            }
+        };
+
+        setTimeout(typeWriter, 500);
+
+        nameInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (val.length > 0) {
+                subtitleContainer.innerHTML = `প্রিয় <span style="color:var(--gold)">${val}</span>, ঈদ মোবারক! 🌙`;
+            } else {
+                subtitleContainer.innerHTML = `<span id="typewriter"></span><span class="cursor"></span>`;
+                typeIndex = 0;
+                typeWriter();
+            }
+        });
+
+        // ==========================================
+        // PAGE 2: ACTIONS (Copy, Download, Share)
+        // ==========================================
+        const poemText = `পবিত্র ঈদ-উল-ফিতর\nআমাদের সকলের জীবনে বয়ে আনুক অনাবিল সুখ, শান্তি ও সমৃদ্ধি।\nহৃদয়ের গভীর থেকে ঈদের অনেক শুভেচ্ছা ও ভালোবাসা।\nআল্লাহ সকলের জীবন সুখময় করুন,\nপ্রতিটি মুহূর্ত হোক আনন্দে পূর্ণ।\n🌙 ঈদ মোবারক — শান্তি ও সমৃদ্ধি হোক সবার ✨`;
+
+        const copyPoem = () => {
+            initAudio();
+            navigator.clipboard.writeText(poemText).then(() => {
+                playSound('ding');
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = '✅ কপি হয়েছে!';
+                setTimeout(() => btn.innerText = '📋 কপি করুন', 2000);
+            });
+        };
+
+        const downloadCard = () => {
+            initAudio(); playSound('tick');
+            const card = document.getElementById('greetingsCard');
+            // Hide buttons temporarily for screenshot
+            const actions = card.querySelector('.actions-row');
+            const bb = card.querySelector('.btn-back');
+            actions.style.display = 'none';
+            bb.style.display = 'none';
+
+            html2canvas(card, {backgroundColor: '#0a3d2e', scale: 2}).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'eid-greetings.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                // Restore buttons
+                actions.style.display = 'flex';
+                bb.style.display = 'inline-flex';
+            });
+        };
+
+        const sharePoem = () => {
+            initAudio(); playSound('tick');
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ঈদ মোবারক',
+                    text: poemText
+                }).catch(console.error);
+            } else {
+                const url = `https://wa.me/?text=${encodeURIComponent(poemText)}`;
+                window.open(url, '_blank');
+            }
+        };
+
+        // ==========================================
+        // PAGE 3: MOURNING THEME & CANDLES
+        // ==========================================
+        // Generate SVG candles
+        const candlesCtr = document.getElementById('candlesContainer');
+        for(let i=0; i<6; i++) {
+            candlesCtr.innerHTML += `
+            <div class="candle c-svg">
+                <svg viewBox="0 0 20 60">
+                    <path class="candle-flame" fill="#d9534f" d="M10 0 C15 10, 20 20, 15 30 C10 40, 5 30, 0 20 C0 10, 5 0, 10 0 Z"/>
+                    <path class="candle-flame" fill="#f0ad4e" d="M10 10 C13 18, 15 25, 12 30 C8 35, 5 25, 6 18 C7 10, 8 10, 10 10 Z"/>
+                    <rect class="candle-body" x="6" y="30" width="8" height="30" rx="2"/>
+                </svg>
+            </div>`;
+        }
+
+        const quoteStr = "যেখানে শিশুরা হাসতে ভুলে গেছে, সেখানে আমাদের উৎসব অপূর্ণ।";
+        let qIdx = 0;
+        let quoteTyped = false;
+        
+        const typeQuote = () => {
+            document.getElementById('quoteCursor').style.display = 'inline-block';
+            if (qIdx < quoteStr.length) {
+                document.getElementById('quoteTypewriter').innerText += quoteStr.charAt(qIdx);
+                qIdx++;
+                setTimeout(typeQuote, 40);
+            } else {
+                quoteTyped = true;
+            }
+        };
+
+        const lightCandlesSequential = () => {
+            initAudio();
+            const btn = document.getElementById('candleBtn');
+            btn.disabled = true;
+            
+            const candles = document.querySelectorAll('.c-svg');
+            candles.forEach((c, idx) => {
+                setTimeout(() => {
+                    c.classList.add('lit');
+                    playSound('fwoosh');
+                    if (idx === candles.length - 1) {
+                        btn.innerText = 'মোমবাতি জ্বলছে 🔥';
+                    }
+                }, idx * 300);
+            });
+        };
+
+        // ==========================================
+        // PAGE 4: COMMITMENTS
+        // ==========================================
+        const commitItems = document.querySelectorAll('.commit-item');
+        const toggleAllBtn = document.getElementById('toggleAllBtn');
+        const compMsg = document.getElementById('completionMsg');
+
+        const checkCompletion = () => {
+            const allChecked = Array.from(commitItems).every(i => i.classList.contains('checked'));
+            const anyChecked = Array.from(commitItems).some(i => i.classList.contains('checked'));
+            
+            if (allChecked) {
+                toggleAllBtn.innerText = 'সব বাতিল';
+                if (!compMsg.classList.contains('show')) {
+                    compMsg.classList.add('show');
+                    playSound('melody');
+                }
+            } else {
+                compMsg.classList.remove('show');
+                if (!anyChecked) {
+                    toggleAllBtn.innerText = 'সব নির্বাচন';
+                } else {
+                    toggleAllBtn.innerText = 'সব বাতিল';
+                }
+            }
+        };
+
+        commitItems.forEach(item => {
+            item.addEventListener('click', () => {
+                initAudio();
+                item.classList.toggle('checked');
+                playSound(item.classList.contains('checked') ? 'bell' : 'tick');
+                checkCompletion();
+            });
+        });
+
+        const toggleAll = () => {
+            initAudio();
+            const isAllChecked = Array.from(commitItems).every(i => i.classList.contains('checked'));
+            
+            if (isAllChecked) {
+                // Deselect all
+                commitItems.forEach(i => i.classList.remove('checked'));
+                playSound('tick');
+            } else {
+                // Select all unconditionally
+                let neededChecks = false;
+                commitItems.forEach(i => {
+                    if (!i.classList.contains('checked')) neededChecks = true;
+                    i.classList.add('checked');
+                });
+                if (neededChecks) playSound('bell');
+            }
+            checkCompletion();
+        };
+
+        // ==========================================
+        // CANVAS PARTICLES (Falling Petals/Coins)
+        // ==========================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        const resize = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset(true);
+            }
+            
+            reset(initial = false) {
+                this.x = Math.random() * width;
+                this.y = initial ? Math.random() * height : -20;
+                this.size = Math.random() * 6 + 4;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 1;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = (Math.random() - 0.5) * 0.1;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y * 0.01) * 0.5;
+                this.angle += this.spin;
+
+                if (this.y > height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = this.opacity;
+                
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.size, this.size * 1.5, 0, 0, Math.PI * 2);
+                const grad = ctx.createRadialGradient(0,0,0, 0,0,this.size);
+                grad.addColorStop(0, '#ffefc1');
+                grad.addColorStop(0.6, '#d4af37');
+                grad.addColorStop(1, '#a07028');
+                ctx.fillStyle = grad;
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        const numParticles = Math.min(window.innerWidth / 15, 60);
+        for(let i=0; i<numParticles; i++) {
+            particles.push(new Particle());
+        }
+
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
+            for(let p of particles) {
+                p.update();
+                p.draw();
+            }
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
+
+        // ==========================================
+        // PAGE 5 & CURTAIN LOGIC
+        // ==========================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                initAudio();
+                playCurtainSound();
+                document.getElementById('curtain-left').style.transition = 'transform 1.8s cubic-bezier(0.65, 0, 0.05, 1)';
+                document.getElementById('curtain-right').style.transition = 'transform 1.8s cubic-bezier(0.65, 0, 0.05, 1)';
+                document.getElementById('curtain-left').style.transform = 'translateX(-100%)';
+                document.getElementById('curtain-right').style.transform = 'translateX(100%)';
+                
+                setTimeout(() => {
+                    document.getElementById('curtain-overlay').style.display = 'none';
+                    if(!isMuted) playSound('chime');
+                }, 1900);
+            }, 600); 
+        });
+
+        const updatePreview = () => {
+            document.getElementById('prev-name').textContent = document.getElementById('recipient-name').value || '---';
+            document.getElementById('prev-sender').textContent = document.getElementById('sender-name').value || '---';
+            document.getElementById('prev-amount-val').textContent = document.getElementById('salami-amount').value || '০';
+            document.getElementById('prev-msg').textContent = document.getElementById('custom-msg').value || '---';
+        };
+
+        ['recipient-name', 'sender-name', 'salami-amount', 'custom-msg'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+
+        document.querySelectorAll('.preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('custom-msg').value = btn.textContent;
+                updatePreview();
+            });
+        });
+
+        document.getElementById('bkash-number').addEventListener('input', (e) => localStorage.setItem('eid_bkash_num', e.target.value));
+        document.getElementById('nagad-number').addEventListener('input', (e) => localStorage.setItem('eid_nagad_num', e.target.value));
+
+        window.addEventListener('load', () => {
+            const savedBkash = localStorage.getItem('eid_bkash_num');
+            const savedNagad = localStorage.getItem('eid_nagad_num');
+            if (savedBkash) document.getElementById('bkash-number').value = savedBkash;
+            if (savedNagad) document.getElementById('nagad-number').value = savedNagad;
+        });
+
+        document.getElementById('bkash-btn').addEventListener('click', () => {
+            initAudio();
+            const amount = document.getElementById('salami-amount').value;
+            const number = document.getElementById('bkash-number').value;
+            if (!amount) { alert('পরিমাণ লিখুন প্রথমে! 💰'); playBuzzSound(); return; }
+            if (!number) { alert('আপনার bKash নম্বর দিন! 📱'); playBuzzSound(); return; }
+            playDoubleChime(784, 1047);
+            window.location.href = `bkash://send?amount=${amount}&receiver=${number}`;
+            setTimeout(() => { window.open('https://play.google.com/store/apps/details?id=com.bKash.customerapp', '_blank'); }, 1500);
+        });
+
+        document.getElementById('nagad-btn').addEventListener('click', () => {
+            initAudio();
+            const amount = document.getElementById('salami-amount').value;
+            const number = document.getElementById('nagad-number').value;
+            if (!amount) { alert('পরিমাণ লিখুন প্রথমে! 💰'); playBuzzSound(); return; }
+            if (!number) { alert('আপনার Nagad নম্বর দিন! 📱'); playBuzzSound(); return; }
+            playDoubleChime(659, 880);
+            window.location.href = `nagad://send?amount=${amount}&receiver=${number}`;
+            setTimeout(() => { window.open('https://play.google.com/store/apps/details?id=com.nagad.wallet', '_blank'); }, 1500);
+        });
+
+        document.getElementById('how-toggle').addEventListener('click', () => {
+            initAudio(); playSound('tick');
+            const info = document.getElementById('how-info');
+            info.style.display = info.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.getElementById('copy-salami').addEventListener('click', () => {
+            initAudio();
+            const text = `🌙 ঈদ মোবারক!\nপ্রিয় ${document.getElementById('recipient-name').value || '---'},\n${document.getElementById('custom-msg').value || '---'}\nঈদ সালামি: ৳${document.getElementById('salami-amount').value || '০'}\n— ${document.getElementById('sender-name').value || '---'} এর পক্ষ থেকে 💝`;
+            navigator.clipboard.writeText(text);
+            document.getElementById('copy-salami').textContent = '✅ কপি হয়েছে!';
+            playCopyDing();
+            setTimeout(() => { document.getElementById('copy-salami').textContent = '📋 কার্ড কপি করুন'; }, 2000);
+        });
+
+        document.getElementById('download-salami').addEventListener('click', () => {
+            initAudio(); playSound('tick');
+            const preview = document.getElementById('salami-preview');
+            html2canvas(preview, {backgroundColor: '#0a3d2e', scale: 2}).then(canvas => {
+                const a = document.createElement('a');
+                a.download = 'eid-salami.png';
+                a.href = canvas.toDataURL();
+                a.click();
+            });
+        });
+
+        document.getElementById('whatsapp-salami').addEventListener('click', () => {
+            initAudio();
+            const text = encodeURIComponent(`🌙 ঈদ মোবারক!\nপ্রিয় ${document.getElementById('recipient-name').value || '---'},\n${document.getElementById('custom-msg').value || '---'}\nঈদ সালামি: ৳${document.getElementById('salami-amount').value || '০'}\n— ${document.getElementById('sender-name').value || '---'} এর পক্ষ থেকে 💝`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+            playDoubleChime(784, 1047);
+        });
+
+        document.getElementById('facebook-salami').addEventListener('click', () => {
+            initAudio();
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+            playDoubleChime(784, 1047);
+        });
+
+    </script>
+</body>
+</html>
